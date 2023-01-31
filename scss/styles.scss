@@ -1,0 +1,73 @@
+$titulo_principal:orange;
+$titulos:center;
+$fondo:rgb(2, 76, 56);
+$fondo_div:aqua;
+$letra_div:white;
+$sizeLetra:12px;
+
+@mixin equipos($color,$tamaño){
+    font-size: $tamaño;
+    color: $color;
+}
+@function disminuyeLetra($tamaño,$divisor){
+    @return ($tamaño/$divisor);
+}
+@function aumentaLetra($tamaño,$multiplo){
+    @return ($tamaño*$multiplo);
+}
+body{
+    background-color: $fondo;
+}
+.titulo{
+    @extend .titulo-div;
+    color: $titulo_principal;
+}
+.separador{
+    width: 60%;
+    height: 60%;
+}
+.titulo-div{
+    text-align: $titulos;
+}
+
+.contenedor{
+    height: 80%;
+    width: 60%;
+    margin-left: 20%;
+    color: $letra_div;
+    background-color:$fondo_div;
+    font: {
+        family: verdana;
+        weight: bold;
+        size: $sizeLetra;
+    }
+    img{
+        @extend .contenedor;
+        border: 5px white solid;
+        &:hover{
+            border: 5px rgb(33, 33, 108) solid;
+            cursor: progress;
+        }
+    }
+    h2{
+        @extend .titulo-div;
+    }
+    h3{
+        @extend .titulo-div;
+        font-size: disminuyeLetra($sizeLetra,1.1);
+        color: green;
+    }
+
+}
+.bigTeam{
+    @include equipos(red,30px);
+
+    &:hover{
+        font-size: aumentaLetra(30px,2);
+        cursor: pointer;
+    }
+
+}
+.friendlyTeam{
+    @include equipos(blue,28px);
+}
