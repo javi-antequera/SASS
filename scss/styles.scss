@@ -1,3 +1,4 @@
+//Variables
 $titulo_principal:orange;
 $titulos:center;
 $fondo:rgb(2, 76, 56);
@@ -5,16 +6,171 @@ $fondo_div:aqua;
 $letra_div:white;
 $sizeLetra:12px;
 
+//Mixins
 @mixin equipos($color,$tamaño){
     font-size: $tamaño;
-    color: $color;
+    color: $color;  
 }
-@function disminuyeLetra($tamaño,$divisor){
+@mixin cambiaFondo($color){
+    background-color: $color;
+}
+@mixin cambiaAltura($altura){
+    height: $altura;
+}
+@mixin cambiaAncho($ancho){
+    width: $ancho;
+}
+@mixin anadeBorde($color,$tamaño){
+    border:solid $color $tamaño;
+}
+@mixin opacidad($numero){
+    @if($numero<3){
+        opacity: 0.5;
+    }
+    @if($numero<4){
+        opacity: 0.7;
+    }@else{
+        opacity: 0.9;
+    }
+}
+
+//Funciones
+@function esPar($numero){   
+    @if ($numero%2==0){
+        @return true
+    }@else{
+        @return false;
+    }
+}
+@function colorBasket($numero){
+    @if($numero==1){
+        @return("a")
+    }
+    @if($numero==2){
+        @return("b")
+    }
+    @if($numero==4){
+        @return("c")
+    }@else{
+        @return ("a")
+    }
+}
+@function disminuye($tamaño,$divisor){
     @return ($tamaño/$divisor);
 }
-@function aumentaLetra($tamaño,$multiplo){
+@function aumenta($tamaño,$multiplo){
     @return ($tamaño*$multiplo);
 }
+
+//Mi Prepos peta con el random xD
+// @function random(){
+//     @return (random(100)px);
+// }
+
+
+//Bucles
+@for $i from 1 through 10{   //En funcion de par o impar cambia el color e incrementa la letra
+    @if(esPar($i)){
+        .spacer-#{$i}{
+            font-size: 10px + $i;
+            color:black;
+            &:hover{
+                cursor: pointer;
+                font-size: aumenta($sizeLetra,3 );
+            }
+        }
+    }@else{//los impares van disminuyendo el tamaño de letra y los pinto rojo salvo el primero
+        @if($i==1){
+            .spacer-#{$i}{
+                font-size: 30px - $i;
+                color:$titulo_principal;
+                text-align: $titulos;
+                &:hover{
+                    cursor: pointer;
+                    font-size: aumenta($sizeLetra,3 );
+                }
+            }
+        }@else{
+            .spacer-#{$i}{
+                font-size: 30px - $i;
+                color:red;
+                &:hover{
+                    cursor: pointer;
+                    font-size: aumenta($sizeLetra,3 );
+                }
+            }
+        }
+
+    }
+}
+
+
+@for $i from 1 through 4{
+    .cuadrado-#{$i} {
+        width: 150px;
+        height: 150px;     
+        @include cambiaFondo(red);       
+        border: 1px solid #000;
+    }
+    @if ($i==1){
+        .cuadrado-#{$i}:hover{
+            @include cambiaFondo(blue);
+        }
+    }
+    @if ($i==2){
+        .cuadrado-#{$i}:hover{
+            @include cambiaAltura(800px);
+        }
+    }
+    @if ($i==3){
+        .cuadrado-#{$i}:hover{
+            @include cambiaAncho(800px);
+        }
+    }
+    @if ($i==4){
+        .cuadrado-#{$i}{
+            @include cambiaFondo(green);
+            &:hover{
+                @include cambiaAncho(600px);
+                @include cambiaAltura(100px);
+            }
+        }
+            
+    }
+}
+@for $i from 1 through 5{ 
+    @if(colorBasket($i)=="a"){
+        .baloncesto-#{$i}{
+            font-size: 25px;
+            color: crimson;
+            &:hover{
+                color: rgb(213, 220, 20);
+            }
+        }
+    }
+    @if(colorBasket($i)=="b"){
+        .baloncesto-#{$i}{
+            font-size: 20px;
+            color: rgb(137, 85, 95);
+        }
+    }
+    @if(colorBasket($i)=="c"){
+        .baloncesto-#{$i}{
+            font-size: 15px;
+            color: rgb(154, 132, 136);
+        }
+    }
+}
+@for $i from 1 through 6{ 
+    .tenis-#{$i}{
+        @include equipos(black,30px);
+        @include opacidad($i);
+        // margin-left: random;
+    }
+}
+
+
+//Estilo para las clases con operaciones, includes, anidaciones y extends
 body{
     background-color: $fondo;
 }
@@ -44,6 +200,7 @@ body{
     img{
         @extend .contenedor;
         border: 5px white solid;
+        
         &:hover{
             border: 5px rgb(33, 33, 108) solid;
             cursor: progress;
@@ -54,16 +211,23 @@ body{
     }
     h3{
         @extend .titulo-div;
-        font-size: disminuyeLetra($sizeLetra,1.1);
+        font-size: disminuye($sizeLetra,1.1);
         color: green;
     }
 
+}
+.cuadrados{
+    @extend .contenedor;
+    &:hover{
+        @include cambiaFondo(rgb(17, 155, 155));
+        @include anadeBorde(white,4px);
+    }
 }
 .bigTeam{
     @include equipos(red,30px);
 
     &:hover{
-        font-size: aumentaLetra(30px,2);
+        font-size: aumenta(30px,2);
         cursor: pointer;
     }
 
