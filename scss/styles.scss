@@ -71,7 +71,7 @@ $sizeLetra:12px;
 //Bucles
 @for $i from 1 through 10{   //En funcion de par o impar cambia el color e incrementa la letra
     @if(esPar($i)){
-        .spacer-#{$i}{
+        .deportes-#{$i}{
             font-size: 10px + $i;
             color:black;
             &:hover{
@@ -81,7 +81,7 @@ $sizeLetra:12px;
         }
     }@else{//los impares van disminuyendo el tamaño de letra y los pinto rojo salvo el primero
         @if($i==1){
-            .spacer-#{$i}{
+            .deportes-#{$i}{
                 font-size: 30px - $i;
                 color:$titulo_principal;
                 text-align: $titulos;
@@ -91,7 +91,7 @@ $sizeLetra:12px;
                 }
             }
         }@else{
-            .spacer-#{$i}{
+            .deportes-#{$i}{
                 font-size: 30px - $i;
                 color:red;
                 &:hover{
